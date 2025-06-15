@@ -64,3 +64,5 @@ Separar servicios (Auth, Billing, Admin, Storefront) como microservicios facilit
 Uso de balanceadores y colas para picos de tráfico y procesos asíncronos (por ejemplo, generación de facturas, notificaciones por e‑mail).
 
 ## Esquema general de arquitectura
+![Boceto Inicial Arqutiectura por Modulos](https://github.com/user-attachments/assets/0c5b8fe8-262a-4346-894e-08bfa7169fd7)
+
