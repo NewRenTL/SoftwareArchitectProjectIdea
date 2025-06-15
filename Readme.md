@@ -61,8 +61,37 @@ Multitenancy exige que cada schema pueda crecer en datos y transacciones sin deg
 
 Separar servicios (Auth, Billing, Admin, Storefront) como microservicios facilita replicar solo los cuellos de botella.
 
-Uso de balanceadores y colas para picos de tráfico y procesos asíncronos (por ejemplo, generación de facturas, notificaciones por e‑mail).
 
 ## Esquema general de arquitectura
 ![Boceto Inicial Arqutiectura por Modulos](https://github.com/user-attachments/assets/0c5b8fe8-262a-4346-894e-08bfa7169fd7)
 
+# Descripción:
+
+## Frontend (Storefront Template)
+
+- Los clientes finales pueden navegar por las tiendas de cada tenant.
+- Se van a consumir los datos de productos a través de **API REST**, obteniendo información de su esquema correspondiente.
+
+## Backend (Panel de Administración)
+
+- **Microservicios**: Se incluyen servicios como **Autenticación**, **Facturación**, **Inventario** y **Gestión de Tenants**.
+- Cada uno de estos microservicios tiene su propia instancia, que puede escalarse según la demanda.
+
+## Base de Datos Multi-Schema
+
+- Cada tenant tiene su propio **esquema**, lo que garantiza la separación de datos.
+- La base de datos se escala horizontalmente, utilizando técnicas de **sharding** (partición) si es necesario.
+
+## API Gateway
+
+- Actúa como punto de entrada a todos los microservicios.
+- Maneja las solicitudes de los usuarios finales y las solicitudes administrativas, redirigiéndolas al servicio correspondiente.
+
+## Balanceo de Carga
+
+- Usado para distribuir las solicitudes entre múltiples instancias de los servidores backend y asegurar **alta disponibilidad**.
+
+## Caché y Mensajería Asíncrona
+
+- Se optimizará el rendimiento con **consultas eficientes** en la base de datos y técnicas de **indexación**.
+- Además, para las tareas que deben procesarse de manera asíncrona, se utilizarán **colas de trabajo** simples como **RabbitMQ** para manejar procesos como la **generación de facturas** y el **envío de correos electrónicos**, evitando que el sistema se sobrecargue durante operaciones de largo plazo.
